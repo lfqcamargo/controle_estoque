@@ -1,6 +1,8 @@
+import { injectable } from "tsyringe";
 import bcrypt from "bcrypt";
 import { HashGenerator } from "@/domain/shared/cryptography/hash-generator";
 
+@injectable()
 export class HashGeneratorHandler implements HashGenerator {
   private saltRounds = 10;
 

@@ -1,12 +1,17 @@
+import { injectable, inject } from "tsyringe";
 import { UsersRepository } from "@/domain/user/application/repositories/users-repository";
 import { User } from "@/domain/user/enterprise/entities/user";
 import { PrismaUserMapper } from "../mappers/prisma-user-mapper";
 import { DomainEvents } from "@/core/events/domain-events";
 import { PaginationParams } from "@/core/repositories/pagination-params";
-import { PrismaClient } from "generated/prisma";
+import { PrismaClient } from "../../../../../generated/prisma";
 
+@injectable()
 export class PrismaUsersRepository implements UsersRepository {
-  constructor(private prisma: PrismaClient) {}
+  constructor(
+    @inject(PrismaClient)
+    private prisma: PrismaClient
+  ) {}
 
   async create(user: User): Promise<void> {
     await this.prisma.user.create({

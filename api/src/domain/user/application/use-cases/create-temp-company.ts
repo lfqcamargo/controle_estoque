@@ -1,3 +1,4 @@
+import { injectable, inject } from "tsyringe";
 import { TempCompany } from "@/domain/user/enterprise/entities/temp-company";
 import { UsersRepository } from "../repositories/users-repository";
 import { TempCompaniesRepository } from "../repositories/temp-companies-repository";
@@ -21,11 +22,16 @@ type CreateTempCompanyUseCaseResponse = Either<
   { tempCompany: TempCompany }
 >;
 
+@injectable()
 export class CreateTempCompanyUseCase {
   constructor(
+    @inject("TempCompaniesRepository")
     private tempCompaniesRepository: TempCompaniesRepository,
+    @inject("CompaniesRepository")
     private companiesRepository: CompaniesRepository,
+    @inject("UsersRepository")
     private usersRepository: UsersRepository,
+    @inject("HashGenerator")
     private hashGenerator: HashGenerator
   ) {}
 

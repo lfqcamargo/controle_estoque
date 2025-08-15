@@ -1,3 +1,4 @@
+import "@/infra/container";
 import { env } from "@/infra/env";
 import { app } from "./app";
 

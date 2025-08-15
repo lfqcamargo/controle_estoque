@@ -14,6 +14,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model TempCompany {
+  id           String        @id @default(uuid())
+  cnpj         String        
+  companyName  String        @map("company_name")
+  email        String
+  userName     String        @map("user_name")
+  password     String
+  token        String
+  expiration   DateTime
+
+  @@map("temp_company")
+}
+
 model Company {
   id            String         @id @default(uuid())
   name          String

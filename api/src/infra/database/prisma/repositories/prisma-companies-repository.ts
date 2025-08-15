@@ -1,11 +1,16 @@
+import { injectable, inject } from "tsyringe";
 import { CompaniesRepository } from "@/domain/user/application/repositories/companies-repository";
 import { Company } from "@/domain/user/enterprise/entities/company";
 import { PrismaCompanyMapper } from "../mappers/prisma-company-mapper";
 import { PrismaUserMapper } from "../mappers/prisma-user-mapper";
-import { PrismaClient } from "generated/prisma";
+import { PrismaClient } from "../../../../../generated/prisma";
 
+@injectable()
 export class PrismaCompaniesRepository implements CompaniesRepository {
-  constructor(private prisma: PrismaClient) {}
+  constructor(
+    @inject(PrismaClient)
+    private prisma: PrismaClient
+  ) {}
 
   async create(company: Company): Promise<void> {
     await this.prisma.$transaction(async (tx) => {

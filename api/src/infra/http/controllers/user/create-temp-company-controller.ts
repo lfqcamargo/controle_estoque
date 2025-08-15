@@ -1,3 +1,4 @@
+import { injectable, inject } from "tsyringe";
 import { CreateTempCompanyUseCase } from "@/domain/user/application/use-cases/create-temp-company";
 import z from "zod";
 import { validateCNPJ } from "@/utils/validate-cnpj";
@@ -62,8 +63,12 @@ const createTempUserBodySchema = z.object({
     ),
 });
 
+@injectable()
 export class CreateTempCompanyController {
-  constructor(private createTempCompanyUseCase: CreateTempCompanyUseCase) {}
+  constructor(
+    @inject(CreateTempCompanyUseCase)
+    private createTempCompanyUseCase: CreateTempCompanyUseCase
+  ) {}
 
   async handle(request: FastifyRequest, reply: FastifyReply) {
     const { cnpj, companyName, email, userName, password } =

@@ -53,9 +53,9 @@ export class DomainEvents {
   ) {
     const wasEventRegisteredBefore = eventClassName in this.handlersMap;
 
-    if (!wasEventRegisteredBefore) {
-      this.handlersMap[eventClassName] = [];
-    }
+    // if (!wasEventRegisteredBefore) {
+    this.handlersMap[eventClassName] = [];
+    // }
 
     this.handlersMap[eventClassName].push(callback);
   }
@@ -78,6 +78,7 @@ export class DomainEvents {
     if (isEventRegistered) {
       const handlers = this.handlersMap[eventClassName];
 
+      if (!handlers) return;
       for (const handler of handlers) {
         handler(event);
       }
