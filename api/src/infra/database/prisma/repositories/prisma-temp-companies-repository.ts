@@ -3,6 +3,7 @@ import { TempCompaniesRepository } from "@/domain/user/application/repositories/
 import { TempCompany } from "@/domain/user/enterprise/entities/temp-company";
 import { PrismaTempCompanyMapper } from "../mappers/prisma-temp-company-mapper";
 import { PrismaClient } from "../../../../../generated/prisma";
+import { DomainEvents } from "@/core/events/domain-events";
 
 @injectable()
 export class PrismaTempCompaniesRepository implements TempCompaniesRepository {
@@ -15,6 +16,8 @@ export class PrismaTempCompaniesRepository implements TempCompaniesRepository {
     await this.prisma.tempCompany.create({
       data: PrismaTempCompanyMapper.toPrisma(tempCompany),
     });
+
+    DomainEvents.dispatchEventsForAggregate(tempCompany.id);
   }
 
   async findByEmail(email: string): Promise<TempCompany | null> {

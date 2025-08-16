@@ -8,6 +8,7 @@ const envSchema = z.object({
   DATABASE_URL: z.url(),
   REDIS_HOST: z.string().default("localhost"),
   REDIS_PORT: z.coerce.number().default(6379),
+  RESEND_API_KEY: z.string(),
 });
 
 const _env = envSchema.safeParse(process.env);

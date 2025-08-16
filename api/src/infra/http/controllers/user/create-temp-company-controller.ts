@@ -66,7 +66,7 @@ const createTempUserBodySchema = z.object({
 @injectable()
 export class CreateTempCompanyController {
   constructor(
-    @inject(CreateTempCompanyUseCase)
+    @inject("CreateTempCompanyUseCase")
     private createTempCompanyUseCase: CreateTempCompanyUseCase
   ) {}
 

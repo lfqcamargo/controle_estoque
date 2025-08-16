@@ -29,7 +29,9 @@ export class DomainEvents {
   ) {
     const index = this.markedAggregates.findIndex((a) => a.equals(aggregate));
 
-    this.markedAggregates.splice(index, 1);
+    if (index >= 0) {
+      this.markedAggregates.splice(index, 1);
+    }
   }
 
   private static findMarkedAggregateByID(
@@ -40,22 +42,21 @@ export class DomainEvents {
 
   public static dispatchEventsForAggregate(id: UniqueEntityID) {
     const aggregate = this.findMarkedAggregateByID(id);
-    if (aggregate) {
-      this.dispatchAggregateEvents(aggregate);
-      aggregate.clearEvents();
-      this.removeAggregateFromMarkedDispatchList(aggregate);
-    }
+
+    if (!aggregate) return;
+
+    this.dispatchAggregateEvents(aggregate);
+    aggregate.clearEvents();
+    this.removeAggregateFromMarkedDispatchList(aggregate);
   }
 
   public static register(
     callback: DomainEventCallback,
     eventClassName: string
   ) {
-    const wasEventRegisteredBefore = eventClassName in this.handlersMap;
-
-    // if (!wasEventRegisteredBefore) {
-    this.handlersMap[eventClassName] = [];
-    // }
+    if (!this.handlersMap[eventClassName]) {
+      this.handlersMap[eventClassName] = [];
+    }
 
     this.handlersMap[eventClassName].push(callback);
   }

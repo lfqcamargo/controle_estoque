@@ -48,7 +48,7 @@ export class CreateTempCompanyUseCase {
     const emailExists = await this.usersRepository.findByEmail(email);
     if (emailExists) return left(new AlreadyExistsEmailError());
 
-    //Gera novo token caso empresa já tenha tentando se cadastrar
+    // New token
     const alreadyExists = await this.tempCompaniesRepository.findByEmail(email);
     if (alreadyExists) {
       await this.tempCompaniesRepository.delete(alreadyExists);
@@ -60,7 +60,7 @@ export class CreateTempCompanyUseCase {
     }
 
     const token = new UniqueEntityID().toString();
-    const expiration = new Date(Date.now() + 1000 * 60 * 60 * 24); // 1 dia
+    const expiration = new Date(Date.now() + 1000 * 60 * 60 * 24); // 1 day
     const hashedPassword = await this.hashGenerator.hash(password);
 
     const tempCompany = TempCompany.create({
