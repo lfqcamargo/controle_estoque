@@ -7,7 +7,7 @@ import { injectable, inject } from "tsyringe";
 @injectable()
 export class PrismaEmailsRepository implements EmailsRepository {
   constructor(
-    @inject(PrismaClient)
+    @inject("PrismaClient")
     private prisma: PrismaClient
   ) {}
 

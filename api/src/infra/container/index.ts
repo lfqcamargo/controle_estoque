@@ -17,7 +17,7 @@ import { SendEmailUseCase } from "@/domain/notification/application/use-cases/se
 import { OnTempCompanyCreated } from "@/domain/notification/application/subscribers/on-temp-company-created";
 import { CreateTempCompanyUseCase } from "@/domain/user/application/use-cases/create-temp-company";
 
-container.registerInstance(PrismaClient, new PrismaClient());
+container.registerInstance<PrismaClient>("PrismaClient", new PrismaClient());
 
 //Use-cases
 container.registerSingleton<CreateTempCompanyUseCase>(

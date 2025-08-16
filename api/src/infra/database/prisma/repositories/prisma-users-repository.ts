@@ -9,7 +9,7 @@ import { PrismaClient } from "../../../../../generated/prisma";
 @injectable()
 export class PrismaUsersRepository implements UsersRepository {
   constructor(
-    @inject(PrismaClient)
+    @inject("PrismaClient")
     private prisma: PrismaClient
   ) {}
 

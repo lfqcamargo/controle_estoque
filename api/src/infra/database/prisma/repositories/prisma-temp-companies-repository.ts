@@ -8,7 +8,7 @@ import { DomainEvents } from "@/core/events/domain-events";
 @injectable()
 export class PrismaTempCompaniesRepository implements TempCompaniesRepository {
   constructor(
-    @inject(PrismaClient)
+    @inject("PrismaClient")
     private prisma: PrismaClient
   ) {}
 
