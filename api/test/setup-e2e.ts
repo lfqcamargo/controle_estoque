@@ -1,9 +1,11 @@
+import "reflect-metadata";
 import { randomUUID } from "node:crypto";
 import { execSync } from "node:child_process";
 import { PrismaClient } from "../generated/prisma";
 import { afterAll, beforeAll, beforeEach } from "vitest";
 import { DomainEvents } from "@/core/events/domain-events";
 import { app } from "@/infra/server/app";
+import "../src/infra/container";
 
 const schemaId = randomUUID();
 const prisma = new PrismaClient();
@@ -21,7 +23,12 @@ function generateUniqueDatabaseURL(schemaId: string) {
 beforeAll(async () => {
   const databaseURL = generateUniqueDatabaseURL(schemaId);
   process.env.DATABASE_URL = databaseURL;
-  execSync("npx prisma migrate deploy");
+  execSync("npx prisma db push --force-reset", {
+    env: {
+      ...process.env,
+      DATABASE_URL: databaseURL,
+    },
+  });
 
   await app.ready();
 });

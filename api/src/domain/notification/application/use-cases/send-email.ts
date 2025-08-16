@@ -31,7 +31,6 @@ export class SendEmailUseCase {
     const email = Email.create({ to, subject, body, from });
 
     const result = await this.emailSender.sendEmail(email);
-
     if (result.isLeft()) {
       return left(result.value);
     }
