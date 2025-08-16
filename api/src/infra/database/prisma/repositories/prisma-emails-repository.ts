@@ -1,11 +1,11 @@
 import { PrismaClient } from "../../../../../generated/prisma";
-import { EmailsRepository } from "@/domain/notification/application/repositories/emails-repository";
+import { EmailsRepositoryInterface } from "@/domain/notification/application/interfaces/emails-repository-interface";
 import { Email } from "@/domain/notification/enterprise/entities/email";
 import { PrismaEmailMapper } from "../mappers/prisma-email-mapper";
 import { injectable, inject } from "tsyringe";
 
 @injectable()
-export class PrismaEmailsRepository implements EmailsRepository {
+export class PrismaEmailsRepository implements EmailsRepositoryInterface {
   constructor(
     @inject("PrismaClient")
     private prisma: PrismaClient

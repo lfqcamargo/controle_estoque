@@ -1,7 +1,7 @@
-import { EmailsRepository } from "@/domain/notification/application/repositories/emails-repository";
+import { EmailsRepositoryInterface } from "@/domain/notification/application/interfaces/emails-repository-interface";
 import { Email } from "@/domain/notification/enterprise/entities/email";
 
-export class InMemoryEmailsRepository implements EmailsRepository {
+export class InMemoryEmailsRepository implements EmailsRepositoryInterface {
   public items: Email[] = [];
 
   async create(email: Email): Promise<void> {

@@ -1,7 +1,7 @@
 import { Either, left, right } from "@/core/either";
 import { Email } from "../../enterprise/entities/email";
-import { EmailsRepository } from "../repositories/emails-repository";
-import { EmailSender } from "../services/email-sender";
+import { EmailsRepositoryInterface } from "../interfaces/emails-repository-interface";
+import { EmailSenderInterface } from "../interfaces/email-sender-interface";
 import { inject, injectable } from "tsyringe";
 
 interface SendEmailUseCaseRequest {
@@ -17,9 +17,9 @@ type SendEmailUseCaseResponse = Either<Error, { email: Email }>;
 export class SendEmailUseCase {
   constructor(
     @inject("EmailsRepository")
-    private emailsRepository: EmailsRepository,
+    private emailsRepository: EmailsRepositoryInterface,
     @inject("EmailSender")
-    private emailSender: EmailSender
+    private emailSender: EmailSenderInterface
   ) {}
 
   async execute({

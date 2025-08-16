@@ -1,9 +1,9 @@
-import { TempCompaniesRepository } from "@/domain/user/application/repositories/temp-companies-repository";
+import { TempCompaniesRepositoryInterface } from "@/domain/user/application/interfaces/temp-companies-repository-interface";
 import { TempCompany } from "@/domain/user/enterprise/entities/temp-company";
 import { DomainEvents } from "@/core/events/domain-events";
 
 export class InMemoryTempCompaniesRepository
-  implements TempCompaniesRepository
+  implements TempCompaniesRepositoryInterface
 {
   public items: TempCompany[] = [];
 
@@ -33,9 +33,11 @@ export class InMemoryTempCompaniesRepository
   }
 
   async delete(tempCompany: TempCompany): Promise<void> {
-    const index = this.items.findIndex((item) => item.id.toString() === tempCompany.id.toString());
+    const index = this.items.findIndex(
+      (item) => item.id.toString() === tempCompany.id.toString()
+    );
     if (index >= 0) {
       this.items.splice(index, 1);
-    } 
+    }
   }
 }

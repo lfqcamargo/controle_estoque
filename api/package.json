@@ -11,7 +11,8 @@
     "test:e2e": "vitest run -c ./vitest.e2e.config.ts",
     "test:watch": "vitest --project unit",
     "test:e2e:watch": "vitest -c ./vitest.e2e.config.ts",
-    "test:coverage": "vitest --coverage"
+    "test:coverage": "vitest --coverage",
+    "check": "npx tsc --noEmit"
   },
   "keywords": [],
   "author": "",

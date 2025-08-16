@@ -2,12 +2,15 @@ import { DomainEvents } from "@/core/events/domain-events";
 import { TempCompanyCreatedEvent } from "@/domain/user/enterprise/events/temp-company-created.event";
 import { SendEmailUseCase } from "../use-cases/send-email";
 import { inject, injectable } from "tsyringe";
+import { LinkBuilderInterface } from "../interfaces/link-builder-interface";
 
 @injectable()
 export class OnTempCompanyCreated {
   constructor(
     @inject("SendEmailUseCase")
-    private sendEmail: SendEmailUseCase
+    private sendEmail: SendEmailUseCase,
+    @inject("LinkBuilder")
+    private linkBuilder: LinkBuilderInterface
   ) {
     this.setupSubscriptions();
   }
@@ -23,7 +26,9 @@ export class OnTempCompanyCreated {
     const tempCompanyCreatedEvent = event as TempCompanyCreatedEvent;
     const { tempCompany } = tempCompanyCreatedEvent;
 
-    const confirmationLink = `/auth/confirmation-email-company?token=${tempCompany.token}`;
+    const confirmationLink = `${this.linkBuilder.url()}/auth/confirmation-email-company?token=${
+      tempCompany.token
+    }`;
 
     await this.sendEmail.execute({
       to: tempCompany.email,
@@ -42,6 +47,7 @@ export class OnTempCompanyCreated {
               Confirmar Cadastro
             </a>
           </p>
+          <p>${confirmationLink}</p>
 
           <p><strong>Validade do link:</strong><br />
           ${tempCompany.expiration.toLocaleString("pt-BR", {

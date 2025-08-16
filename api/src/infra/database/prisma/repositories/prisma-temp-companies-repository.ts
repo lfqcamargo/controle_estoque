@@ -1,12 +1,14 @@
 import { injectable, inject } from "tsyringe";
-import { TempCompaniesRepository } from "@/domain/user/application/repositories/temp-companies-repository";
+import { TempCompaniesRepositoryInterface } from "@/domain/user/application/interfaces/temp-companies-repository-interface";
 import { TempCompany } from "@/domain/user/enterprise/entities/temp-company";
 import { PrismaTempCompanyMapper } from "../mappers/prisma-temp-company-mapper";
 import { PrismaClient } from "../../../../../generated/prisma";
 import { DomainEvents } from "@/core/events/domain-events";
 
 @injectable()
-export class PrismaTempCompaniesRepository implements TempCompaniesRepository {
+export class PrismaTempCompaniesRepository
+  implements TempCompaniesRepositoryInterface
+{
   constructor(
     @inject("PrismaClient")
     private prisma: PrismaClient

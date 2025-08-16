@@ -1,8 +1,10 @@
 import { DomainEvents } from "@/core/events/domain-events";
-import { CompaniesRepository } from "@/domain/user/application/repositories/companies-repository";
+import { CompaniesRepositoryInterface } from "@/domain/user/application/interfaces/companies-repository-interface";
 import { Company } from "@/domain/user/enterprise/entities/company";
 
-export class InMemoryCompaniesRepository implements CompaniesRepository {
+export class InMemoryCompaniesRepository
+  implements CompaniesRepositoryInterface
+{
   public items: Company[] = [];
 
   async create(company: Company): Promise<void> {

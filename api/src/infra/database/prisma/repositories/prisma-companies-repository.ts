@@ -1,12 +1,12 @@
 import { injectable, inject } from "tsyringe";
-import { CompaniesRepository } from "@/domain/user/application/repositories/companies-repository";
+import { CompaniesRepositoryInterface } from "@/domain/user/application/interfaces/companies-repository-interface";
 import { Company } from "@/domain/user/enterprise/entities/company";
 import { PrismaCompanyMapper } from "../mappers/prisma-company-mapper";
 import { PrismaUserMapper } from "../mappers/prisma-user-mapper";
 import { PrismaClient } from "../../../../../generated/prisma";
 
 @injectable()
-export class PrismaCompaniesRepository implements CompaniesRepository {
+export class PrismaCompaniesRepository implements CompaniesRepositoryInterface {
   constructor(
     @inject("PrismaClient")
     private prisma: PrismaClient

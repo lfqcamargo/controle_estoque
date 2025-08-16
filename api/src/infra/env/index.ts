@@ -5,10 +5,12 @@ const envSchema = z.object({
   NODE_ENV: z.enum(["dev", "test", "production"]).default("dev"),
   JWT_SECRET: z.string(),
   PORT: z.coerce.number().default(3333),
+
   DATABASE_URL: z.url(),
-  REDIS_HOST: z.string().default("localhost"),
-  REDIS_PORT: z.coerce.number().default(6379),
+
   RESEND_API_KEY: z.string(),
+
+  BASE_URL: z.string(),
 });
 
 const _env = envSchema.safeParse(process.env);

@@ -2,7 +2,6 @@ import "reflect-metadata";
 import { describe, it, beforeEach, expect } from "vitest";
 import { SendEmailUseCase } from "./send-email";
 import { DomainEvents } from "@/core/events/domain-events";
-import { container } from "test/container";
 import { InMemoryEmailsRepository } from "test/repositories/in-memory-emails-repository";
 import { FakeEmailSender } from "test/notification/fake-email-sender";
 
@@ -13,17 +12,10 @@ let sendEmail: SendEmailUseCase;
 describe("Send Email Use Case", () => {
   beforeEach(() => {
     DomainEvents.clearHandlers();
-    container.clearInstances();
-
-    // Cria novas instâncias limpas
     inMemoryEmailsRepository = new InMemoryEmailsRepository();
     fakeEmailSender = new FakeEmailSender();
 
-    // Registra as instâncias no container
-    container.registerInstance("EmailsRepository", inMemoryEmailsRepository);
-    container.registerInstance("EmailSender", fakeEmailSender);
-
-    sendEmail = container.resolve(SendEmailUseCase);
+    sendEmail = new SendEmailUseCase(inMemoryEmailsRepository, fakeEmailSender);
   });
 
   it("should be able to send an email", async () => {
@@ -45,9 +37,8 @@ describe("Send Email Use Case", () => {
       expect(email.sentAt).toBeDefined();
     }
 
-    // Verifica se o email foi salvo no repository
     expect(inMemoryEmailsRepository.items).toHaveLength(1);
-    const savedEmail = inMemoryEmailsRepository.items[0];
+    const savedEmail = inMemoryEmailsRepository.items[0]!;
     expect(savedEmail.to).toBe("test@example.com");
   });
 
@@ -65,4 +56,4 @@ describe("Send Email Use Case", () => {
       expect(email.from).toBeNull();
     }
   });
-}); 
+});

@@ -1,9 +1,9 @@
 import { injectable, inject } from "tsyringe";
 import { TempCompany } from "@/domain/user/enterprise/entities/temp-company";
-import { UsersRepository } from "../repositories/users-repository";
-import { TempCompaniesRepository } from "../repositories/temp-companies-repository";
-import { CompaniesRepository } from "../repositories/companies-repository";
-import { HashGenerator } from "@/domain/shared/cryptography/hash-generator";
+import { UsersRepositoryInterface } from "../interfaces/users-repository-interface";
+import { TempCompaniesRepositoryInterface } from "../interfaces/temp-companies-repository-interface";
+import { CompaniesRepositoryInterface } from "../interfaces/companies-repository-interface";
+import { HashGeneratorInterface } from "@/domain/shared/cryptography/interfaces/hash-generator-interface";
 import { Either, left, right } from "@/core/either";
 import { AlreadyExistsCnpjError } from "./errors/already-exists-cnpj-error";
 import { AlreadyExistsEmailError } from "./errors/already-exists-email-error";
@@ -26,13 +26,13 @@ type CreateTempCompanyUseCaseResponse = Either<
 export class CreateTempCompanyUseCase {
   constructor(
     @inject("TempCompaniesRepository")
-    private tempCompaniesRepository: TempCompaniesRepository,
+    private tempCompaniesRepository: TempCompaniesRepositoryInterface,
     @inject("CompaniesRepository")
-    private companiesRepository: CompaniesRepository,
+    private companiesRepository: CompaniesRepositoryInterface,
     @inject("UsersRepository")
-    private usersRepository: UsersRepository,
+    private usersRepository: UsersRepositoryInterface,
     @inject("HashGenerator")
-    private hashGenerator: HashGenerator
+    private hashGenerator: HashGeneratorInterface
   ) {}
 
   async execute({

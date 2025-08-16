@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
-import { Encrypter } from "@/domain/shared/cryptography/encrypter";
+import { EncrypterInterface } from "@/domain/shared/cryptography/interfaces/encrypter-interface";
 
-export class EncrypterHandler implements Encrypter {
+export class EncrypterHandler implements EncrypterInterface {
   private saltRounds = 10;
 
   async encrypt(payload: Record<string, unknown>): Promise<string> {

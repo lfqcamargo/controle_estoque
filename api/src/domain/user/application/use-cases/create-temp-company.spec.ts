@@ -46,18 +46,16 @@ describe("Create temp user use case", () => {
 
     expect(result.isRight()).toBe(true);
 
-    const tempUser = inMemoryTempCompaniesRepository.items[0];
+    const tempUser = inMemoryTempCompaniesRepository.items[0]!;
     expect(tempUser).toBeDefined();
 
-    if (tempUser) {
-      expect(tempUser.id).toBeDefined();
-      expect(tempUser.cnpj).toBe("12345678901234");
-      expect(tempUser.companyName).toBe("Test Company");
-      expect(tempUser.email).toBe("test@test.com");
-      expect(tempUser.userName).toBe("test");
-      expect(tempUser.password).toBe("test-hashed");
-      expect(tempUser.expiration).toBeDefined();
-    }
+    expect(tempUser.id).toBeDefined();
+    expect(tempUser.cnpj).toBe("12345678901234");
+    expect(tempUser.companyName).toBe("Test Company");
+    expect(tempUser.email).toBe("test@test.com");
+    expect(tempUser.userName).toBe("test");
+    expect(tempUser.password).toBe("test-hashed");
+    expect(tempUser.expiration).toBeDefined();
   });
 
   it("should not be able to create a temp user with an already existing cnpj", async () => {
@@ -107,14 +105,12 @@ describe("Create temp user use case", () => {
     });
 
     expect(result.isRight()).toBe(true);
-    const tempCompany = inMemoryTempCompaniesRepository.items[0];
+    const tempCompany = inMemoryTempCompaniesRepository.items[0]!;
     expect(tempCompany).toBeDefined();
 
-    if (tempCompany) {
-      expect(tempCompany.companyName).toBe("New Company");
-      expect(tempCompany.userName).toBe("newuser");
-      expect(tempCompany.token).not.toBe("old-token");
-      expect(tempCompany.password).toBe("newpass-hashed");
-    }
+    expect(tempCompany.companyName).toBe("New Company");
+    expect(tempCompany.userName).toBe("newuser");
+    expect(tempCompany.token).not.toBe("old-token");
+    expect(tempCompany.password).toBe("newpass-hashed");
   });
 });

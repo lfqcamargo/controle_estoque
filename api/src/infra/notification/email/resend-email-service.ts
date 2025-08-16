@@ -1,12 +1,12 @@
-import { EmailSender } from "@/domain/notification/application/services/email-sender";
+import { EmailSenderInterface } from "@/domain/notification/application/interfaces/email-sender-interface";
 import { Email } from "@/domain/notification/enterprise/entities/email";
 import { Either, right, left } from "@/core/either";
-import { SendEmailResponse } from "@/domain/notification/application/services/email-sender";
+import { SendEmailResponse } from "@/domain/notification/application/interfaces/email-sender-interface";
 import { Resend } from "resend";
 import { injectable } from "tsyringe";
 
 @injectable()
-export class ResendEmailService implements EmailSender {
+export class ResendEmailService implements EmailSenderInterface {
   private resend: Resend;
 
   constructor() {

@@ -1,9 +1,9 @@
 import { injectable } from "tsyringe";
 import bcrypt from "bcrypt";
-import { HashGenerator } from "@/domain/shared/cryptography/hash-generator";
+import { HashGeneratorInterface } from "@/domain/shared/cryptography/interfaces/hash-generator-interface";
 
 @injectable()
-export class HashGeneratorHandler implements HashGenerator {
+export class HashGeneratorHandler implements HashGeneratorInterface {
   private saltRounds = 10;
 
   async hash(plain: string): Promise<string> {

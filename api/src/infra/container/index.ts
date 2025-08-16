@@ -7,15 +7,17 @@ import { PrismaUsersRepository } from "@/infra/database/prisma/repositories/pris
 import { PrismaEmailsRepository } from "@/infra/database/prisma/repositories/prisma-emails-repository";
 import { HashGeneratorHandler } from "@/infra/cryptography/hash-generator-handler";
 import { ResendEmailService } from "@/infra/notification/email/resend-email-service";
-import { TempCompaniesRepository } from "@/domain/user/application/repositories/temp-companies-repository";
-import { CompaniesRepository } from "@/domain/user/application/repositories/companies-repository";
-import { UsersRepository } from "@/domain/user/application/repositories/users-repository";
-import { EmailsRepository } from "@/domain/notification/application/repositories/emails-repository";
-import { HashGenerator } from "@/domain/shared/cryptography/hash-generator";
-import { EmailSender } from "@/domain/notification/application/services/email-sender";
+import { TempCompaniesRepositoryInterface } from "@/domain/user/application/interfaces/temp-companies-repository-interface";
+import { CompaniesRepositoryInterface } from "@/domain/user/application/interfaces/companies-repository-interface";
+import { UsersRepositoryInterface } from "@/domain/user/application/interfaces/users-repository-interface";
+import { EmailsRepositoryInterface } from "@/domain/notification/application/interfaces/emails-repository-interface";
+import { HashGeneratorInterface } from "@/domain/shared/cryptography/interfaces/hash-generator-interface";
+import { EmailSenderInterface } from "@/domain/notification/application/interfaces/email-sender-interface";
 import { SendEmailUseCase } from "@/domain/notification/application/use-cases/send-email";
 import { OnTempCompanyCreated } from "@/domain/notification/application/subscribers/on-temp-company-created";
 import { CreateTempCompanyUseCase } from "@/domain/user/application/use-cases/create-temp-company";
+import { LinkBuilderInterface } from "@/domain/notification/application/interfaces/link-builder-interface";
+import { LinkBuilder } from "../notification/link/link-builder";
 
 container.registerInstance<PrismaClient>("PrismaClient", new PrismaClient());
 
@@ -26,43 +28,43 @@ container.registerSingleton<CreateTempCompanyUseCase>(
 );
 
 //Repositories
-container.registerSingleton<TempCompaniesRepository>(
+container.registerSingleton<TempCompaniesRepositoryInterface>(
   "TempCompaniesRepository",
   PrismaTempCompaniesRepository
 );
-container.registerSingleton<CompaniesRepository>(
+container.registerSingleton<CompaniesRepositoryInterface>(
   "CompaniesRepository",
   PrismaCompaniesRepository
 );
-
-container.registerSingleton<UsersRepository>(
+container.registerSingleton<UsersRepositoryInterface>(
   "UsersRepository",
   PrismaUsersRepository
 );
-
-container.registerSingleton<EmailsRepository>(
+container.registerSingleton<EmailsRepositoryInterface>(
   "EmailsRepository",
   PrismaEmailsRepository
 );
 
 // Shared
-container.registerSingleton<HashGenerator>(
+container.registerSingleton<HashGeneratorInterface>(
   "HashGenerator",
   HashGeneratorHandler
 );
 
 // Notification
-container.registerSingleton<EmailSender>("EmailSender", ResendEmailService);
-
+container.registerSingleton<EmailSenderInterface>(
+  "EmailSender",
+  ResendEmailService
+);
 container.registerSingleton<SendEmailUseCase>(
   "SendEmailUseCase",
   SendEmailUseCase
 );
-
 container.registerSingleton<OnTempCompanyCreated>(
   "OnTempCompanyCreated",
   OnTempCompanyCreated
 );
+container.registerSingleton<LinkBuilderInterface>("LinkBuilder", LinkBuilder);
 
 //Dispatch
 container.resolve(OnTempCompanyCreated);

@@ -6,22 +6,25 @@ import { OnTempCompanyCreated } from "./on-temp-company-created";
 import { TempCompany } from "@/domain/user/enterprise/entities/temp-company";
 import { DomainEvents } from "@/core/events/domain-events";
 import { describe, it, beforeEach, expect } from "vitest";
+import { FakeLinkBuilder } from "test/services/fake-link-builder";
 
 let inMemoryEmailsRepository: InMemoryEmailsRepository;
 let fakeEmailSender: FakeEmailSender;
+let fakeLinkBuilder: FakeLinkBuilder;
 let sendEmail: SendEmailUseCase;
 
 describe("On Temp Company Created", () => {
   beforeEach(() => {
     inMemoryEmailsRepository = new InMemoryEmailsRepository();
     fakeEmailSender = new FakeEmailSender();
+    fakeLinkBuilder = new FakeLinkBuilder();
     sendEmail = new SendEmailUseCase(inMemoryEmailsRepository, fakeEmailSender);
 
     DomainEvents.clearHandlers();
   });
 
   it("should send a welcome email when temp company is created", async () => {
-    new OnTempCompanyCreated(sendEmail);
+    new OnTempCompanyCreated(sendEmail, fakeLinkBuilder);
 
     const tempCompany = TempCompany.create({
       cnpj: "12345678901234",

@@ -1,13 +1,13 @@
 import { injectable, inject } from "tsyringe";
-import { UsersRepository } from "@/domain/user/application/repositories/users-repository";
+import { UsersRepositoryInterface } from "@/domain/user/application/interfaces/users-repository-interface";
 import { User } from "@/domain/user/enterprise/entities/user";
 import { PrismaUserMapper } from "../mappers/prisma-user-mapper";
 import { DomainEvents } from "@/core/events/domain-events";
-import { PaginationParams } from "@/core/repositories/pagination-params";
+import { PaginationParams } from "@/core/interfaces/pagination-params";
 import { PrismaClient } from "../../../../../generated/prisma";
 
 @injectable()
-export class PrismaUsersRepository implements UsersRepository {
+export class PrismaUsersRepository implements UsersRepositoryInterface {
   constructor(
     @inject("PrismaClient")
     private prisma: PrismaClient

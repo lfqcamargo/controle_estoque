@@ -1,9 +1,9 @@
-import { UsersRepository } from "@/domain/user/application/repositories/users-repository";
+import { UsersRepositoryInterface } from "@/domain/user/application/interfaces/users-repository-interface";
 import { User } from "@/domain/user/enterprise/entities/user";
 import { DomainEvents } from "@/core/events/domain-events";
-import { PaginationParams } from "@/core/repositories/pagination-params";
+import { PaginationParams } from "@/core/interfaces/pagination-params";
 
-export class InMemoryUsersRepository implements UsersRepository {
+export class InMemoryUsersRepository implements UsersRepositoryInterface {
   public items: User[] = [];
 
   async create(user: User): Promise<void> {
