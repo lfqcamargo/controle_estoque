@@ -1,8 +1,8 @@
-import { Either, left, right } from "@/core/either";
-import { Email } from "../../enterprise/entities/email";
-import { EmailsRepositoryInterface } from "../interfaces/emails-repository-interface";
-import { EmailSenderInterface } from "../interfaces/email-sender-interface";
-import { inject, injectable } from "tsyringe";
+import { Either, left, right } from '@/core/either';
+import { Email } from '../../enterprise/entities/email';
+import { EmailsRepositoryInterface } from '../interfaces/emails-repository-interface';
+import { EmailSenderInterface } from '../interfaces/email-sender-interface';
+import { Injectable } from '@nestjs/common';
 
 interface SendEmailUseCaseRequest {
   to: string;
@@ -13,13 +13,11 @@ interface SendEmailUseCaseRequest {
 
 type SendEmailUseCaseResponse = Either<Error, { email: Email }>;
 
-@injectable()
+@Injectable()
 export class SendEmailUseCase {
   constructor(
-    @inject("EmailsRepository")
     private emailsRepository: EmailsRepositoryInterface,
-    @inject("EmailSender")
-    private emailSender: EmailSenderInterface
+    private emailSender: EmailSenderInterface,
   ) {}
 
   async execute({

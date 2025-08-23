@@ -1,13 +1,13 @@
-import { injectable, inject } from "tsyringe";
-import { TempCompany } from "@/domain/user/enterprise/entities/temp-company";
-import { UsersRepositoryInterface } from "../interfaces/users-repository-interface";
-import { TempCompaniesRepositoryInterface } from "../interfaces/temp-companies-repository-interface";
-import { CompaniesRepositoryInterface } from "../interfaces/companies-repository-interface";
-import { HashGeneratorInterface } from "@/domain/shared/cryptography/interfaces/hash-generator-interface";
-import { Either, left, right } from "@/core/either";
-import { AlreadyExistsCnpjError } from "./errors/already-exists-cnpj-error";
-import { AlreadyExistsEmailError } from "./errors/already-exists-email-error";
-import { UniqueEntityID } from "@/core/entities/unique-entity-id";
+import { TempCompany } from '@/domain/user/enterprise/entities/temp-company';
+import { UsersRepositoryInterface } from '../interfaces/users-repository-interface';
+import { TempCompaniesRepositoryInterface } from '../interfaces/temp-companies-repository-interface';
+import { CompaniesRepositoryInterface } from '../interfaces/companies-repository-interface';
+import { HashGeneratorInterface } from '@/domain/shared/cryptography/interfaces/hash-generator-interface';
+import { Either, left, right } from '@/core/either';
+import { AlreadyExistsCnpjError } from './errors/already-exists-cnpj-error';
+import { AlreadyExistsEmailError } from './errors/already-exists-email-error';
+import { UniqueEntityID } from '@/core/entities/unique-entity-id';
+import { Injectable } from '@nestjs/common';
 
 interface CreateTempCompanyUseCaseRequest {
   cnpj: string;
@@ -22,17 +22,13 @@ type CreateTempCompanyUseCaseResponse = Either<
   { tempCompany: TempCompany }
 >;
 
-@injectable()
+@Injectable()
 export class CreateTempCompanyUseCase {
   constructor(
-    @inject("TempCompaniesRepository")
     private tempCompaniesRepository: TempCompaniesRepositoryInterface,
-    @inject("CompaniesRepository")
     private companiesRepository: CompaniesRepositoryInterface,
-    @inject("UsersRepository")
     private usersRepository: UsersRepositoryInterface,
-    @inject("HashGenerator")
-    private hashGenerator: HashGeneratorInterface
+    private hashGenerator: HashGeneratorInterface,
   ) {}
 
   async execute({

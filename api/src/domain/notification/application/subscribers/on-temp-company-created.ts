@@ -1,16 +1,14 @@
-import { DomainEvents } from "@/core/events/domain-events";
-import { TempCompanyCreatedEvent } from "@/domain/user/enterprise/events/temp-company-created.event";
-import { SendEmailUseCase } from "../use-cases/send-email";
-import { inject, injectable } from "tsyringe";
-import { LinkBuilderInterface } from "../interfaces/link-builder-interface";
+import { DomainEvents } from '@/core/events/domain-events';
+import { TempCompanyCreatedEvent } from '@/domain/user/enterprise/events/temp-company-created.event';
+import { SendEmailUseCase } from '../use-cases/send-email';
+import { LinkBuilderInterface } from '../interfaces/link-builder-interface';
+import { Injectable } from '@nestjs/common';
 
-@injectable()
+@Injectable()
 export class OnTempCompanyCreated {
   constructor(
-    @inject("SendEmailUseCase")
     private sendEmail: SendEmailUseCase,
-    @inject("LinkBuilder")
-    private linkBuilder: LinkBuilderInterface
+    private linkBuilder: LinkBuilderInterface,
   ) {
     this.setupSubscriptions();
   }
@@ -18,7 +16,7 @@ export class OnTempCompanyCreated {
   setupSubscriptions(): void {
     DomainEvents.register(
       (event: unknown) => this.sendWelcomeEmail(event),
-      TempCompanyCreatedEvent.name
+      TempCompanyCreatedEvent.name,
     );
   }
 
@@ -32,7 +30,7 @@ export class OnTempCompanyCreated {
 
     await this.sendEmail.execute({
       to: tempCompany.email,
-      subject: "🎉 Bem-vindo à plataforma StockManagers!",
+      subject: '🎉 Bem-vindo à plataforma StockManagers!',
       body: `
         <div style="font-family: Arial, sans-serif; font-size: 16px; color: #333; line-height: 1.6;">
           <p>Olá <strong>${tempCompany.userName}</strong>,</p>
@@ -50,9 +48,9 @@ export class OnTempCompanyCreated {
           <p>${confirmationLink}</p>
 
           <p><strong>Validade do link:</strong><br />
-          ${tempCompany.expiration.toLocaleString("pt-BR", {
-            dateStyle: "full",
-            timeStyle: "short",
+          ${tempCompany.expiration.toLocaleString('pt-BR', {
+            dateStyle: 'full',
+            timeStyle: 'short',
           })}</p>
 
           <p>Se você não solicitou este cadastro, pode ignorar este e-mail.</p>

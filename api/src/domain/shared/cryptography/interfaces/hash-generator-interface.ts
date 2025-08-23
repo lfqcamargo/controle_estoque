@@ -1,3 +1,3 @@
-export interface HashGeneratorInterface {
-  hash(plain: string): Promise<string>;
+export abstract class HashGeneratorInterface {
+  abstract hash(plain: string): Promise<string>;
 }

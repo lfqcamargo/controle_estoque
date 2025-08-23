@@ -1,16 +1,13 @@
-import { injectable, inject } from "tsyringe";
-import { CompaniesRepositoryInterface } from "@/domain/user/application/interfaces/companies-repository-interface";
-import { Company } from "@/domain/user/enterprise/entities/company";
-import { PrismaCompanyMapper } from "../mappers/prisma-company-mapper";
-import { PrismaUserMapper } from "../mappers/prisma-user-mapper";
-import { PrismaClient } from "../../../../../generated/prisma";
+import { CompaniesRepositoryInterface } from '@/domain/user/application/interfaces/companies-repository-interface';
+import { Company } from '@/domain/user/enterprise/entities/company';
+import { PrismaCompanyMapper } from '../mappers/prisma-company-mapper';
+import { PrismaUserMapper } from '../mappers/prisma-user-mapper';
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma.service';
 
-@injectable()
+@Injectable()
 export class PrismaCompaniesRepository implements CompaniesRepositoryInterface {
-  constructor(
-    @inject("PrismaClient")
-    private prisma: PrismaClient
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
   async create(company: Company): Promise<void> {
     await this.prisma.$transaction(async (tx) => {

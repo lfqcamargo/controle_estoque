@@ -1,15 +1,12 @@
-import { PrismaClient } from "../../../../../generated/prisma";
-import { EmailsRepositoryInterface } from "@/domain/notification/application/interfaces/emails-repository-interface";
-import { Email } from "@/domain/notification/enterprise/entities/email";
-import { PrismaEmailMapper } from "../mappers/prisma-email-mapper";
-import { injectable, inject } from "tsyringe";
+import { EmailsRepositoryInterface } from '@/domain/notification/application/interfaces/emails-repository-interface';
+import { Email } from '@/domain/notification/enterprise/entities/email';
+import { PrismaEmailMapper } from '../mappers/prisma-email-mapper';
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma.service';
 
-@injectable()
+@Injectable()
 export class PrismaEmailsRepository implements EmailsRepositoryInterface {
-  constructor(
-    @inject("PrismaClient")
-    private prisma: PrismaClient
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
   async create(email: Email): Promise<void> {
     const data = PrismaEmailMapper.toPrisma(email);

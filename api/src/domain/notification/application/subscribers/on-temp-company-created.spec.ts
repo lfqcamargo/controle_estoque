@@ -38,15 +38,11 @@ describe("On Temp Company Created", () => {
 
     DomainEvents.dispatchEventsForAggregate(tempCompany.id);
 
-    const sentEmail = fakeEmailSender.sentEmails[0];
+    const sentEmail = fakeEmailSender.sentEmails[0]!;
 
     expect(sentEmail).toBeDefined();
-    if (sentEmail) {
-      expect(sentEmail.to).toBe("test@example.com");
-      expect(sentEmail.body).toContain("John Doe");
-      expect(sentEmail.body).toContain("test-token");
-    } else {
-      throw new Error();
-    }
+    expect(sentEmail.to).toBe("test@example.com");
+    expect(sentEmail.body).toContain("John Doe");
+    expect(sentEmail.body).toContain("test-token");
   });
 });

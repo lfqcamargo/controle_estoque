@@ -1,8 +1,8 @@
-import { Company } from "@/domain/user/enterprise/entities/company";
+import { Company } from '@/domain/user/enterprise/entities/company';
 
-export interface CompaniesRepositoryInterface {
-  create(company: Company): Promise<void>;
-  findById(id: string): Promise<Company | null>;
-  findByCnpj(cnpj: string): Promise<Company | null>;
-  save(company: Company): Promise<void>;
+export abstract class CompaniesRepositoryInterface {
+  abstract create(company: Company): Promise<void>;
+  abstract findById(id: string): Promise<Company | null>;
+  abstract findByCnpj(cnpj: string): Promise<Company | null>;
+  abstract save(company: Company): Promise<void>;
 }

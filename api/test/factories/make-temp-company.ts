@@ -1,13 +1,16 @@
-import { UniqueEntityID } from "@/core/entities/unique-entity-id";
+import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import {
   TempCompany,
   TempCompanyProps,
-} from "@/domain/user/enterprise/entities/temp-company";
-import { faker } from "@faker-js/faker";
+} from '@/domain/user/enterprise/entities/temp-company';
+import { PrismaTempCompanyMapper } from '@/infra/database/prisma/mappers/prisma-temp-company-mapper';
+import { PrismaService } from '@/infra/database/prisma/prisma.service';
+import { faker } from '@faker-js/faker';
+import { Injectable } from '@nestjs/common';
 
 export function makeTempCompany(
   override: Partial<TempCompanyProps> = {},
-  id?: UniqueEntityID
+  id?: UniqueEntityID,
 ) {
   const tempCompany = TempCompany.create(
     {
@@ -20,8 +23,25 @@ export function makeTempCompany(
       expiration: faker.date.future(),
       ...override,
     },
-    id
+    id,
   );
 
   return tempCompany;
+}
+
+@Injectable()
+export class TempCompanyFactory {
+  constructor(private prisma: PrismaService) {}
+
+  async makePrismaCompany(
+    data: Partial<TempCompanyProps> = {},
+  ): Promise<TempCompany> {
+    const tempCompany = makeTempCompany(data);
+
+    await this.prisma.tempCompany.create({
+      data: PrismaTempCompanyMapper.toPrisma(tempCompany),
+    });
+
+    return tempCompany;
+  }
 }

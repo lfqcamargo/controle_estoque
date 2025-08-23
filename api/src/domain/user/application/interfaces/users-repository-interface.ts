@@ -1,13 +1,13 @@
-import { PaginationParams } from "@/core/interfaces/pagination-params";
-import { User } from "@/domain/user/enterprise/entities/user";
+import { PaginationParams } from '@/core/interfaces/pagination-params';
+import { User } from '@/domain/user/enterprise/entities/user';
 
-export interface UsersRepositoryInterface {
-  create(user: User): Promise<void>;
-  findByEmail(email: string): Promise<User | null>;
-  findById(id: string): Promise<User | null>;
-  fetchAll(
+export abstract class UsersRepositoryInterface {
+  abstract create(user: User): Promise<void>;
+  abstract findByEmail(email: string): Promise<User | null>;
+  abstract findById(id: string): Promise<User | null>;
+  abstract fetchAll(
     companyId: string,
-    { page, itemsPerPage }: PaginationParams
+    { page, itemsPerPage }: PaginationParams,
   ): Promise<{
     data: User[];
     meta: {
@@ -24,5 +24,5 @@ export interface UsersRepositoryInterface {
       lastCreated: Date;
     };
   }>;
-  update(user: User): Promise<void>;
+  abstract update(user: User): Promise<void>;
 }

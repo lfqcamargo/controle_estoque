@@ -1,10 +1,10 @@
-import { TempCompany } from "@/domain/user/enterprise/entities/temp-company";
+import { TempCompany } from '@/domain/user/enterprise/entities/temp-company';
 
-export interface TempCompaniesRepositoryInterface {
-  create(tempCompany: TempCompany): Promise<void>;
-  findByEmail(email: string): Promise<TempCompany | null>;
-  findByCnpj(cnpj: string): Promise<TempCompany | null>;
-  findByToken(token: string): Promise<TempCompany | null>;
-  delete(tempCompany: TempCompany): Promise<void>;
-  deleteByCnpj(cnpj: string): Promise<void>;
+export abstract class TempCompaniesRepositoryInterface {
+  abstract create(tempCompany: TempCompany): Promise<void>;
+  abstract findByEmail(email: string): Promise<TempCompany | null>;
+  abstract findByCnpj(cnpj: string): Promise<TempCompany | null>;
+  abstract findByToken(token: string): Promise<TempCompany | null>;
+  abstract delete(tempCompany: TempCompany): Promise<void>;
+  abstract deleteByCnpj(cnpj: string): Promise<void>;
 }

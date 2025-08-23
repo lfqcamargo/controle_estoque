@@ -1,17 +1,14 @@
-import { injectable, inject } from "tsyringe";
-import { UsersRepositoryInterface } from "@/domain/user/application/interfaces/users-repository-interface";
-import { User } from "@/domain/user/enterprise/entities/user";
-import { PrismaUserMapper } from "../mappers/prisma-user-mapper";
-import { DomainEvents } from "@/core/events/domain-events";
-import { PaginationParams } from "@/core/interfaces/pagination-params";
-import { PrismaClient } from "../../../../../generated/prisma";
+import { UsersRepositoryInterface } from '@/domain/user/application/interfaces/users-repository-interface';
+import { User } from '@/domain/user/enterprise/entities/user';
+import { PrismaUserMapper } from '../mappers/prisma-user-mapper';
+import { DomainEvents } from '@/core/events/domain-events';
+import { PaginationParams } from '@/core/interfaces/pagination-params';
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma.service';
 
-@injectable()
+@Injectable()
 export class PrismaUsersRepository implements UsersRepositoryInterface {
-  constructor(
-    @inject("PrismaClient")
-    private prisma: PrismaClient
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
   async create(user: User): Promise<void> {
     await this.prisma.user.create({
@@ -41,7 +38,7 @@ export class PrismaUsersRepository implements UsersRepositoryInterface {
     const users = await this.prisma.user.findMany({
       skip: (page - 1) * itemsPerPage,
       take: itemsPerPage,
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: 'desc' },
     });
 
     const totalAdmin = await this.prisma.user.count({ where: { companyId } });
@@ -57,7 +54,7 @@ export class PrismaUsersRepository implements UsersRepositoryInterface {
     const totalInactive = totalItems - totalActive;
 
     const lastCreatedRecord = await this.prisma.user.findFirst({
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: 'desc' },
       select: { createdAt: true },
     });
 
