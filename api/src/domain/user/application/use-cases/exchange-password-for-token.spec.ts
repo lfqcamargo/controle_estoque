@@ -1,0 +1,81 @@
+import { FakeHasher } from 'test/cryptography/fake-hasher';
+import { makePasswordToken } from 'test/factories/make-password-token';
+import { makeUser } from 'test/factories/make-user';
+import { InMemoryPasswordTokensRepository } from 'test/repositories/in-memory-password-tokens-repository';
+import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository';
+import { beforeEach, describe, expect, it } from 'vitest';
+
+import { ResourceTokenNotFoundError } from './errors/resource-token-not-found-error';
+import { TokenExpiratedError } from './errors/token-expirated-error';
+import { ExchangePasswordForTokenUseCase } from './exchange-password-for-token';
+
+let inMemoryUsersRepository: InMemoryUsersRepository;
+let inMemoryPasswordTokensRepository: InMemoryPasswordTokensRepository;
+let hashGenerator: FakeHasher;
+let exchangePasswordForToken: ExchangePasswordForTokenUseCase;
+
+describe('Exchange password for token use case', () => {
+  beforeEach(() => {
+    inMemoryUsersRepository = new InMemoryUsersRepository();
+    inMemoryPasswordTokensRepository = new InMemoryPasswordTokensRepository();
+    hashGenerator = new FakeHasher();
+
+    exchangePasswordForToken = new ExchangePasswordForTokenUseCase(
+      inMemoryUsersRepository,
+      inMemoryPasswordTokensRepository,
+      hashGenerator,
+    );
+  });
+
+  it('should be able to exchange password for token', async () => {
+    const user = makeUser({ email: 'test@test.com' });
+    await inMemoryUsersRepository.create(user);
+
+    const passwordToken = makePasswordToken({
+      userId: user.id,
+      token: 'token-test',
+      expiration: new Date(Date.now() + 1000 * 60 * 60 * 24),
+    });
+
+    await inMemoryPasswordTokensRepository.create(passwordToken);
+
+    const result = await exchangePasswordForToken.execute({
+      token: passwordToken.token,
+      password: 'test',
+    });
+
+    expect(result.isRight()).toBe(true);
+    expect(inMemoryPasswordTokensRepository.items).toHaveLength(0);
+  });
+
+  it('should not be able to exchange password for token with an expired token', async () => {
+    const user = makeUser({ email: 'test@test.com' });
+    await inMemoryUsersRepository.create(user);
+
+    const passwordToken = makePasswordToken({
+      userId: user.id,
+      token: 'token-test',
+      expiration: new Date(Date.now() - 1000 * 60 * 60 * 24),
+    });
+
+    await inMemoryPasswordTokensRepository.create(passwordToken);
+
+    const result = await exchangePasswordForToken.execute({
+      token: passwordToken.token,
+      password: 'test',
+    });
+
+    expect(result.isLeft()).toBe(true);
+    expect(result.value).toBeInstanceOf(TokenExpiratedError);
+  });
+
+  it('should not be able to exchange password for token with an invalid token', async () => {
+    const result = await exchangePasswordForToken.execute({
+      token: 'invalid-token',
+      password: 'test',
+    });
+
+    expect(result.isLeft()).toBe(true);
+    expect(result.value).toBeInstanceOf(ResourceTokenNotFoundError);
+  });
+});

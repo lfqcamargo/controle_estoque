@@ -8,9 +8,11 @@ import { CryptographyModule } from '@/infra/cryptography/cryptography.module';
 import { DatabaseModule } from '@/infra/database/database.module';
 import { EventModule } from '@/infra/event/event.module';
 
+import { ExchangePasswordForTokenUseCase } from '../../../../domain/user/application/use-cases/exchange-password-for-token';
 import { AuthenticateUserController } from './authenticate-user.controller';
 import { ConfirmationCreateCompanyController } from './confirmation-create-company.controller';
 import { CreateTempCompanyController } from './create-temp-company.controller';
+import { ExchangePasswordForTokenController } from './exchange-password-for-token.controller';
 import { GenerateNewPasswordTokenController } from './generate-new-password-token.controller';
 
 @Module({
@@ -20,12 +22,14 @@ import { GenerateNewPasswordTokenController } from './generate-new-password-toke
     ConfirmationCreateCompanyController,
     AuthenticateUserController,
     GenerateNewPasswordTokenController,
+    ExchangePasswordForTokenController,
   ],
   providers: [
     CreateTempCompanyUseCase,
     ConfirmationCreateCompanyUseCase,
     AuthenticateUserUseCase,
     GenerateNewPasswordTokenUseCase,
+    ExchangePasswordForTokenUseCase,
   ],
 })
 export class UserModule {}
