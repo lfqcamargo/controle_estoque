@@ -1,3 +1,3 @@
-export interface LinkBuilderInterface {
-  url(): string;
+export abstract class LinkBuilderInterface {
+  abstract url(): string;
 }

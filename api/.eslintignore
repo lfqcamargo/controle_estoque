@@ -1,0 +1,22 @@
+# Dependências
+node_modules/
+dist/
+generated/
+
+# Arquivos de build
+*.js
+*.d.ts
+*.min.js
+
+# Arquivos de configuração
+*.config.js
+*.config.ts
+
+# Arquivos de teste
+test/
+coverage/
+
+# Outros
+.env
+.env.*
+*.log 

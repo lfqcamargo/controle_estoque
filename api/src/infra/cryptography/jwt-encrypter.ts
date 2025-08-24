@@ -1,6 +1,7 @@
-import { EncrypterInterface } from '@/domain/shared/cryptography/interfaces/encrypter-interface';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+
+import { EncrypterInterface } from '@/domain/shared/cryptography/interfaces/encrypter-interface';
 
 @Injectable()
 export class JwtEncrypter implements EncrypterInterface {

@@ -1,5 +1,6 @@
-import { DomainEvent } from "@/core/events/domain-event";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
+import { DomainEvent } from "@/core/events/domain-event";
+
 import { TempCompany } from "../entities/temp-company";
 
 export class TempCompanyCreatedEvent implements DomainEvent {

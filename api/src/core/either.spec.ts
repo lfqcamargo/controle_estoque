@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { Either, left, right } from "@/core/either";
 
 function doSomeThing(shouldSuccess: boolean): Either<string, number> {

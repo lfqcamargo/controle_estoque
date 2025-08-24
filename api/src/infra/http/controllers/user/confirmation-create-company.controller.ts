@@ -1,9 +1,3 @@
-import z from 'zod';
-import { ConfirmationCreateCompanyUseCase } from '@/domain/user/application/use-cases/confirmation-create-company';
-import { ResourceTokenNotFoundError } from '@/domain/user/application/use-cases/errors/resource-token-not-found-error';
-import { AlreadyExistsCnpjError } from '@/domain/user/application/use-cases/errors/already-exists-cnpj-error';
-import { AlreadyExistsEmailError } from '@/domain/user/application/use-cases/errors/already-exists-email-error';
-import { TokenExpiratedError } from '@/domain/user/application/use-cases/errors/token-expirated-error';
 import {
   BadRequestException,
   Controller,
@@ -12,7 +6,15 @@ import {
   InternalServerErrorException,
   Param,
 } from '@nestjs/common';
+import z from 'zod';
+
+import { ConfirmationCreateCompanyUseCase } from '@/domain/user/application/use-cases/confirmation-create-company';
+import { AlreadyExistsCnpjError } from '@/domain/user/application/use-cases/errors/already-exists-cnpj-error';
+import { AlreadyExistsEmailError } from '@/domain/user/application/use-cases/errors/already-exists-email-error';
+import { ResourceTokenNotFoundError } from '@/domain/user/application/use-cases/errors/resource-token-not-found-error';
+import { TokenExpiratedError } from '@/domain/user/application/use-cases/errors/token-expirated-error';
 import { Public } from '@/infra/auth/public';
+
 import { ZodValidationPipe } from '../../pipes/zod-validation-pipe';
 
 const confirmationCreateCompanyParamsSchema = z.object({

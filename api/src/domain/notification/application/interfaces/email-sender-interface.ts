@@ -1,5 +1,6 @@
-import { Email } from '../../enterprise/entities/email';
 import { Either } from '@/core/either';
+
+import { Email } from '../../enterprise/entities/email';
 
 export interface SendEmailResponse {
   success: boolean;

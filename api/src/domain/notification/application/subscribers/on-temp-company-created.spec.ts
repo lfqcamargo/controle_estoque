@@ -1,12 +1,15 @@
 import "reflect-metadata";
+
 import { InMemoryEmailsRepository } from "test/repositories/in-memory-emails-repository";
 import { FakeEmailSender } from "test/services/fake-email-sender";
+import { FakeLinkBuilder } from "test/services/fake-link-builder";
+import { beforeEach, describe, expect,it } from "vitest";
+
+import { DomainEvents } from "@/core/events/domain-events";
+import { TempCompany } from "@/domain/user/enterprise/entities/temp-company";
+
 import { SendEmailUseCase } from "../use-cases/send-email";
 import { OnTempCompanyCreated } from "./on-temp-company-created";
-import { TempCompany } from "@/domain/user/enterprise/entities/temp-company";
-import { DomainEvents } from "@/core/events/domain-events";
-import { describe, it, beforeEach, expect } from "vitest";
-import { FakeLinkBuilder } from "test/services/fake-link-builder";
 
 let inMemoryEmailsRepository: InMemoryEmailsRepository;
 let fakeEmailSender: FakeEmailSender;

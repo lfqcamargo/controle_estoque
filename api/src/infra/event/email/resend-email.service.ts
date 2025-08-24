@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { EmailSenderInterface } from '@/domain/notification/application/interfaces/email-sender-interface';
-import { Email } from '@/domain/notification/enterprise/entities/email';
-import { Either, right, left } from '@/core/either';
-import { SendEmailResponse } from '@/domain/notification/application/interfaces/email-sender-interface';
 import { Resend } from 'resend';
+
+import { Either, left,right } from '@/core/either';
+import { EmailSenderInterface } from '@/domain/notification/application/interfaces/email-sender-interface';
+import { SendEmailResponse } from '@/domain/notification/application/interfaces/email-sender-interface';
+import { Email } from '@/domain/notification/enterprise/entities/email';
 
 @Injectable()
 export class ResendEmailService implements EmailSenderInterface {

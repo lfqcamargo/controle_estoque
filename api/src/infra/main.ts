@@ -1,10 +1,11 @@
 import { config } from 'dotenv';
 config({ path: process.env.ENV_FILE || '.env' });
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
-import { Env } from './env/env';
+import { NestFactory } from '@nestjs/core';
 import cookieParser from 'cookie-parser';
+
+import { AppModule } from './app.module';
+import { Env } from './env/env';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {

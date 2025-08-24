@@ -1,8 +1,10 @@
+import { Injectable } from '@nestjs/common';
+
 import { DomainEvents } from '@/core/events/domain-events';
 import { TempCompanyCreatedEvent } from '@/domain/user/enterprise/events/temp-company-created.event';
-import { SendEmailUseCase } from '../use-cases/send-email';
+
 import { LinkBuilderInterface } from '../interfaces/link-builder-interface';
-import { Injectable } from '@nestjs/common';
+import { SendEmailUseCase } from '../use-cases/send-email';
 
 @Injectable()
 export class OnTempCompanyCreated {

@@ -1,9 +1,11 @@
+import { Injectable } from '@nestjs/common';
+
+import { DomainEvents } from '@/core/events/domain-events';
 import { TempCompaniesRepositoryInterface } from '@/domain/user/application/interfaces/temp-companies-repository-interface';
 import { TempCompany } from '@/domain/user/enterprise/entities/temp-company';
+
 import { PrismaTempCompanyMapper } from '../mappers/prisma-temp-company-mapper';
 import { PrismaService } from '../prisma.service';
-import { DomainEvents } from '@/core/events/domain-events';
-import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class PrismaTempCompaniesRepository

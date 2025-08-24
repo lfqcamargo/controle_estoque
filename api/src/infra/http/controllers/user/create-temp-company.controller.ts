@@ -1,8 +1,3 @@
-import { CreateTempCompanyUseCase } from '@/domain/user/application/use-cases/create-temp-company';
-import z from 'zod';
-import { validateCNPJ } from '@/utils/validate-cnpj';
-import { AlreadyExistsCnpjError } from '@/domain/user/application/use-cases/errors/already-exists-cnpj-error';
-import { AlreadyExistsEmailError } from '@/domain/user/application/use-cases/errors/already-exists-email-error';
 import {
   Body,
   ConflictException,
@@ -11,8 +6,15 @@ import {
   InternalServerErrorException,
   Post,
 } from '@nestjs/common';
-import { ZodValidationPipe } from '../../pipes/zod-validation-pipe';
+import z from 'zod';
+
+import { CreateTempCompanyUseCase } from '@/domain/user/application/use-cases/create-temp-company';
+import { AlreadyExistsCnpjError } from '@/domain/user/application/use-cases/errors/already-exists-cnpj-error';
+import { AlreadyExistsEmailError } from '@/domain/user/application/use-cases/errors/already-exists-email-error';
 import { Public } from '@/infra/auth/public';
+import { validateCNPJ } from '@/utils/validate-cnpj';
+
+import { ZodValidationPipe } from '../../pipes/zod-validation-pipe';
 
 const createTempUserBodySchema = z.object({
   cnpj: z

@@ -1,4 +1,4 @@
-import { hash, compare } from 'bcryptjs';
+import { compare,hash } from 'bcryptjs';
 
 import { HashComparerInterface } from '@/domain/shared/cryptography/interfaces/hash-comparer-interface';
 import { HashGeneratorInterface } from '@/domain/shared/cryptography/interfaces/hash-generator-interface';

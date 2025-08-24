@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 
-import { CryptographyModule } from '../cryptography/cryptography.module';
-import { EmailModule } from '../event/email/email.module';
 import { EventModule } from '@/infra/event/event.module';
-import { UserModule } from './controllers/user/user.module';
+
+import { CryptographyModule } from '../cryptography/cryptography.module';
 import { DatabaseModule } from '../database/database.module';
+import { EmailModule } from '../event/email/email.module';
+import { UserModule } from './controllers/user/user.module';
 
 @Module({
   imports: [

@@ -1,10 +1,11 @@
-import { beforeAll, describe, expect, test } from 'vitest';
-import request from 'supertest';
-import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import { PrismaService } from '@/infra/database/prisma/prisma.service';
+import { Test } from '@nestjs/testing';
+import request from 'supertest';
+import { beforeAll, describe, expect, test } from 'vitest';
+
 import { AppModule } from '@/infra/app.module';
 import { DatabaseModule } from '@/infra/database/database.module';
+import { PrismaService } from '@/infra/database/prisma/prisma.service';
 
 describe('Create Company Temp (E2E)', () => {
   let app: INestApplication;

@@ -1,7 +1,9 @@
+import { Injectable } from '@nestjs/common';
+
 import { EmailsRepositoryInterface } from '@/domain/notification/application/interfaces/emails-repository-interface';
 import { Email } from '@/domain/notification/enterprise/entities/email';
+
 import { PrismaEmailMapper } from '../mappers/prisma-email-mapper';
-import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 
 @Injectable()

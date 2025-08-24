@@ -8,6 +8,7 @@ export const envSchema = z.object({
   JWT_PUBLIC_KEY: z.string(),
 
   RESEND_API_KEY: z.string(),
+  BASE_URL: z.string(),
 });
 
 export type Env = z.infer<typeof envSchema>;

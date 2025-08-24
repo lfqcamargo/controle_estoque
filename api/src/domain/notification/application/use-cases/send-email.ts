@@ -1,8 +1,10 @@
-import { Either, left, right } from '@/core/either';
-import { Email } from '../../enterprise/entities/email';
-import { EmailsRepositoryInterface } from '../interfaces/emails-repository-interface';
-import { EmailSenderInterface } from '../interfaces/email-sender-interface';
 import { Injectable } from '@nestjs/common';
+
+import { Either, left, right } from '@/core/either';
+
+import { Email } from '../../enterprise/entities/email';
+import { EmailSenderInterface } from '../interfaces/email-sender-interface';
+import { EmailsRepositoryInterface } from '../interfaces/emails-repository-interface';
 
 interface SendEmailUseCaseRequest {
   to: string;

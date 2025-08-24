@@ -1,14 +1,16 @@
+import { Injectable } from '@nestjs/common';
+
 import { Either, left, right } from '@/core/either';
+
+import { Company } from '../../enterprise/entities/company';
+import { User, UserRole } from '../../enterprise/entities/user';
 import { CompaniesRepositoryInterface } from '../interfaces/companies-repository-interface';
 import { TempCompaniesRepositoryInterface } from '../interfaces/temp-companies-repository-interface';
 import { UsersRepositoryInterface } from '../interfaces/users-repository-interface';
-import { ResourceTokenNotFoundError } from './errors/resource-token-not-found-error';
 import { AlreadyExistsCnpjError } from './errors/already-exists-cnpj-error';
 import { AlreadyExistsEmailError } from './errors/already-exists-email-error';
-import { User, UserRole } from '../../enterprise/entities/user';
-import { Company } from '../../enterprise/entities/company';
+import { ResourceTokenNotFoundError } from './errors/resource-token-not-found-error';
 import { TokenExpiratedError } from './errors/token-expirated-error';
-import { Injectable } from '@nestjs/common';
 
 interface ConfirmationCreateCompanyUseCaseRequest {
   token: string;

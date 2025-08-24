@@ -1,16 +1,19 @@
 import "reflect-metadata";
-import { InMemoryTempCompaniesRepository } from "test/repositories/in-memory-temp-companies-repository";
-import { InMemoryCompaniesRepository } from "test/repositories/in-memory-companies-repository";
-import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
-import { describe, it, beforeEach, expect } from "vitest";
-import { CreateTempCompanyUseCase } from "./create-temp-company";
+
 import { FakeHasher } from "test/cryptography/fake-hasher";
+import { makeCompany } from "test/factories/make-company";
+import { makeTempCompany } from "test/factories/make-temp-company";
+import { makeUser } from "test/factories/make-user";
+import { InMemoryCompaniesRepository } from "test/repositories/in-memory-companies-repository";
+import { InMemoryTempCompaniesRepository } from "test/repositories/in-memory-temp-companies-repository";
+import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
+import { beforeEach, describe, expect,it } from "vitest";
+
 import { DomainEvents } from "@/core/events/domain-events";
+
+import { CreateTempCompanyUseCase } from "./create-temp-company";
 import { AlreadyExistsCnpjError } from "./errors/already-exists-cnpj-error";
 import { AlreadyExistsEmailError } from "./errors/already-exists-email-error";
-import { makeCompany } from "test/factories/make-company";
-import { makeUser } from "test/factories/make-user";
-import { makeTempCompany } from "test/factories/make-temp-company";
 
 let inMemoryTempCompaniesRepository: InMemoryTempCompaniesRepository;
 let inMemoryCompaniesRepository: InMemoryCompaniesRepository;

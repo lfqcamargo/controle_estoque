@@ -1,6 +1,7 @@
+import { Prisma,TempCompany as PrismaTempCompany } from "generated/prisma";
+
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import { TempCompany } from "@/domain/user/enterprise/entities/temp-company";
-import { TempCompany as PrismaTempCompany, Prisma } from "generated/prisma";
 
 export class PrismaTempCompanyMapper {
   static toDomain(raw: PrismaTempCompany): TempCompany {

@@ -1,9 +1,11 @@
-import { UsersRepositoryInterface } from '@/domain/user/application/interfaces/users-repository-interface';
-import { User } from '@/domain/user/enterprise/entities/user';
-import { PrismaUserMapper } from '../mappers/prisma-user-mapper';
+import { Injectable } from '@nestjs/common';
+
 import { DomainEvents } from '@/core/events/domain-events';
 import { PaginationParams } from '@/core/interfaces/pagination-params';
-import { Injectable } from '@nestjs/common';
+import { UsersRepositoryInterface } from '@/domain/user/application/interfaces/users-repository-interface';
+import { User } from '@/domain/user/enterprise/entities/user';
+
+import { PrismaUserMapper } from '../mappers/prisma-user-mapper';
 import { PrismaService } from '../prisma.service';
 
 @Injectable()

@@ -1,6 +1,7 @@
-import { Email as PrismaEmail } from "../../../../../generated/prisma";
-import { Email } from "@/domain/notification/enterprise/entities/email";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
+import { Email } from "@/domain/notification/enterprise/entities/email";
+
+import { Email as PrismaEmail } from "../../../../../generated/prisma";
 
 export class PrismaEmailMapper {
   static toDomain(raw: PrismaEmail): Email {

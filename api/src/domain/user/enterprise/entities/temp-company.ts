@@ -1,5 +1,6 @@
 import { AggregateRoot } from "@/core/entities/aggregate-root";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
+
 import { TempCompanyCreatedEvent } from "../events/temp-company-created.event";
 
 export interface TempCompanyProps {

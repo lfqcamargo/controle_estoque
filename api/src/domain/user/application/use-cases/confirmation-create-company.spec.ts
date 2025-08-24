@@ -1,17 +1,20 @@
 import "reflect-metadata";
+
+import { makeCompany } from "test/factories/make-company";
+import { makeTempCompany } from "test/factories/make-temp-company";
+import { makeUser } from "test/factories/make-user";
 import { InMemoryCompaniesRepository } from "test/repositories/in-memory-companies-repository";
 import { InMemoryTempCompaniesRepository } from "test/repositories/in-memory-temp-companies-repository";
 import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
 import { beforeEach, describe, expect, it } from "vitest";
-import { ConfirmationCreateCompanyUseCase } from "./confirmation-create-company";
-import { makeTempCompany } from "test/factories/make-temp-company";
-import { ResourceTokenNotFoundError } from "./errors/resource-token-not-found-error";
+
 import { DomainEvents } from "@/core/events/domain-events";
-import { TokenExpiratedError } from "./errors/token-expirated-error";
-import { makeUser } from "test/factories/make-user";
-import { AlreadyExistsEmailError } from "./errors/already-exists-email-error";
-import { makeCompany } from "test/factories/make-company";
+
+import { ConfirmationCreateCompanyUseCase } from "./confirmation-create-company";
 import { AlreadyExistsCnpjError } from "./errors/already-exists-cnpj-error";
+import { AlreadyExistsEmailError } from "./errors/already-exists-email-error";
+import { ResourceTokenNotFoundError } from "./errors/resource-token-not-found-error";
+import { TokenExpiratedError } from "./errors/token-expirated-error";
 
 let inMemoryTempCompaniesRepository: InMemoryTempCompaniesRepository;
 let inMemoryCompaniesRepository: InMemoryCompaniesRepository;

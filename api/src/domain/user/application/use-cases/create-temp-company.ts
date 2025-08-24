@@ -1,13 +1,15 @@
-import { TempCompany } from '@/domain/user/enterprise/entities/temp-company';
-import { UsersRepositoryInterface } from '../interfaces/users-repository-interface';
-import { TempCompaniesRepositoryInterface } from '../interfaces/temp-companies-repository-interface';
-import { CompaniesRepositoryInterface } from '../interfaces/companies-repository-interface';
-import { HashGeneratorInterface } from '@/domain/shared/cryptography/interfaces/hash-generator-interface';
+import { Injectable } from '@nestjs/common';
+
 import { Either, left, right } from '@/core/either';
+import { UniqueEntityID } from '@/core/entities/unique-entity-id';
+import { HashGeneratorInterface } from '@/domain/shared/cryptography/interfaces/hash-generator-interface';
+import { TempCompany } from '@/domain/user/enterprise/entities/temp-company';
+
+import { CompaniesRepositoryInterface } from '../interfaces/companies-repository-interface';
+import { TempCompaniesRepositoryInterface } from '../interfaces/temp-companies-repository-interface';
+import { UsersRepositoryInterface } from '../interfaces/users-repository-interface';
 import { AlreadyExistsCnpjError } from './errors/already-exists-cnpj-error';
 import { AlreadyExistsEmailError } from './errors/already-exists-email-error';
-import { UniqueEntityID } from '@/core/entities/unique-entity-id';
-import { Injectable } from '@nestjs/common';
 
 interface CreateTempCompanyUseCaseRequest {
   cnpj: string;

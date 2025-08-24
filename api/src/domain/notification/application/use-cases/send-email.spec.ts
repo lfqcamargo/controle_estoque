@@ -1,9 +1,12 @@
 import "reflect-metadata";
-import { describe, it, beforeEach, expect } from "vitest";
-import { SendEmailUseCase } from "./send-email";
-import { DomainEvents } from "@/core/events/domain-events";
-import { InMemoryEmailsRepository } from "test/repositories/in-memory-emails-repository";
+
 import { FakeEmailSender } from "test/notification/fake-email-sender";
+import { InMemoryEmailsRepository } from "test/repositories/in-memory-emails-repository";
+import { beforeEach, describe, expect,it } from "vitest";
+
+import { DomainEvents } from "@/core/events/domain-events";
+
+import { SendEmailUseCase } from "./send-email";
 
 let inMemoryEmailsRepository: InMemoryEmailsRepository;
 let fakeEmailSender: FakeEmailSender;
