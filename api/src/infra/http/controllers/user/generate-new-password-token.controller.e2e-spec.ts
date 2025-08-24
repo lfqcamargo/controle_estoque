@@ -1,6 +1,5 @@
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { hash } from 'bcryptjs';
 import request from 'supertest';
 import { CompanyFactory } from 'test/factories/make-company';
 import { UserFactory } from 'test/factories/make-user';
@@ -8,40 +7,49 @@ import { beforeAll, describe, expect, test } from 'vitest';
 
 import { AppModule } from '@/infra/app.module';
 import { DatabaseModule } from '@/infra/database/database.module';
+import { PrismaService } from '@/infra/database/prisma/prisma.service';
 
-describe('Authenticate (E2E)', () => {
+describe('Generate New Password Token (E2E)', () => {
   let app: INestApplication;
-  let userFactory: UserFactory;
+  let prisma: PrismaService;
+
   let companyFactory: CompanyFactory;
+  let userFactory: UserFactory;
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [UserFactory, CompanyFactory],
+      providers: [CompanyFactory, UserFactory],
     }).compile();
 
     app = moduleRef.createNestApplication();
+    prisma = moduleRef.get(PrismaService);
 
-    userFactory = moduleRef.get(UserFactory);
     companyFactory = moduleRef.get(CompanyFactory);
+    userFactory = moduleRef.get(UserFactory);
 
     await app.init();
   });
 
-  test('[POST] /auth', async () => {
+  test('[GET] /users/forgot-password/:email', async () => {
     const company = await companyFactory.makePrismaCompany();
     const user = await userFactory.makePrismaUser({
       companyId: company.id,
       email: 'lfqcamargo@gmail.com',
-      password: await hash('123456789Lfqcamargo@', 8),
     });
 
-    const response = await request(app.getHttpServer()).post('/auth').send({
-      email: user.email,
-      password: '123456789Lfqcamargo@',
-    });
+    const response = await request(app.getHttpServer()).get(
+      `/users/forgot-password/${user.email}`,
+    );
 
     expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual({ message: 'Logged in' });
+
+    const passwordToken = await prisma.passwordToken.findFirst({
+      where: {
+        userId: user.id.toString(),
+      },
+    });
+
+    expect(passwordToken).toBeTruthy();
   });
 });

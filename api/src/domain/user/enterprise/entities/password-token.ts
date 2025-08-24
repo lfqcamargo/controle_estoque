@@ -1,0 +1,34 @@
+import { AggregateRoot } from '@/core/entities/aggregate-root';
+import { UniqueEntityID } from '@/core/entities/unique-entity-id';
+
+import { PasswordTokenCreatedEvent } from '../events/password-token-created.event';
+
+export interface PasswordTokenProps {
+  token: string;
+  expiration: Date;
+  userId: UniqueEntityID;
+}
+
+export class PasswordToken extends AggregateRoot<PasswordTokenProps> {
+  get token(): string {
+    return this.props.token;
+  }
+
+  get expiration(): Date {
+    return this.props.expiration;
+  }
+
+  get userId(): UniqueEntityID {
+    return this.props.userId;
+  }
+
+  static create(props: PasswordTokenProps, id?: UniqueEntityID) {
+    const passwordToken = new PasswordToken(props, id);
+
+    passwordToken.addDomainEvent(
+      new PasswordTokenCreatedEvent(passwordToken, props.userId.toString()),
+    );
+
+    return passwordToken;
+  }
+}

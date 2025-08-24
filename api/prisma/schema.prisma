@@ -14,18 +14,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Email {
-  id        String    @id @default(uuid())
-  to        String
-  subject   String
-  body      String
-  from      String?
-  createdAt DateTime  @default(now()) @map("created_at")
-  sentAt    DateTime? @map("sent_at")
-
-  @@map("emails")
-}
-
 model TempCompany {
   id           String        @id @default(uuid())
   cnpj         String        
@@ -37,6 +25,29 @@ model TempCompany {
   expiration   DateTime
 
   @@map("temp_company")
+}
+
+model PasswordToken {
+  id          String    @id @default(uuid())
+  token       String
+  expiration  DateTime
+
+  userId      String    @map("user_id")
+  user        User      @relation(fields: [userId], references: [id])
+
+  @@map("password_token")
+}
+
+model Email {
+  id        String    @id @default(uuid())
+  to        String
+  subject   String
+  body      String
+  from      String?
+  createdAt DateTime  @default(now()) @map("created_at")
+  sentAt    DateTime? @map("sent_at")
+
+  @@map("emails")
 }
 
 model Company {
@@ -58,11 +69,13 @@ model User {
   password    String
   role        UserRole
   createdAt   DateTime     @default(now()) @map("created_at")
-  companyId   String       @map("company_id")
   active      Boolean      @default(false)
   lastLogin   DateTime?    @map("last_login")
 
+  companyId   String       @map("company_id")
   company     Company      @relation(fields: [companyId], references: [id])
+
+  passwordTokens PasswordToken[]
 
   @@map("users")
 }
