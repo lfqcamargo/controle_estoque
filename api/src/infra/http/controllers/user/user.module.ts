@@ -14,6 +14,7 @@ import { ConfirmationCreateCompanyController } from './confirmation-create-compa
 import { CreateTempCompanyController } from './create-temp-company.controller';
 import { ExchangePasswordForTokenController } from './exchange-password-for-token.controller';
 import { GenerateNewPasswordTokenController } from './generate-new-password-token.controller';
+import { LogoutController } from './logout.controller';
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, EventModule],
@@ -23,6 +24,7 @@ import { GenerateNewPasswordTokenController } from './generate-new-password-toke
     AuthenticateUserController,
     GenerateNewPasswordTokenController,
     ExchangePasswordForTokenController,
+    LogoutController,
   ],
   providers: [
     CreateTempCompanyUseCase,

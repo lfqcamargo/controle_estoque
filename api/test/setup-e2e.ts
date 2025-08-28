@@ -5,6 +5,7 @@ import { execSync } from 'node:child_process';
 import { afterAll, beforeAll } from 'vitest';
 
 config({ path: '.env', override: true });
+
 const prisma = new PrismaClient();
 
 const schemaId = randomUUID();

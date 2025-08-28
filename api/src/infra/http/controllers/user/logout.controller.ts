@@ -1,17 +1,17 @@
-import { Controller, Get, HttpCode, Res } from "@nestjs/common";
-import { Response } from "express";
+import { Controller, Get, HttpCode, Res } from '@nestjs/common';
+import { Response } from 'express';
 
-@Controller("users/logout")
+@Controller('auth/logout')
 export class LogoutController {
   @Get()
   @HttpCode(200)
   async handle(@Res() res: Response) {
-    res.clearCookie("token", {
+    res.clearCookie('token', {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
     });
 
-    return res.send({ message: "Logged out" });
+    return res.send({ message: 'Logged out' });
   }
 }

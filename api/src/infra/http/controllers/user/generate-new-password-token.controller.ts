@@ -16,7 +16,7 @@ const paramsValidationPipe = new ZodValidationPipe(
   generateNewPasswordTokenParamsSchema,
 );
 
-@Controller('users/forgot-password/:email')
+@Controller('auth/forgot-password/:email')
 @Public()
 export class GenerateNewPasswordTokenController {
   constructor(

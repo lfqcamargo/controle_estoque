@@ -7,8 +7,8 @@ import { z } from 'zod';
 import { EnvService } from '../env/env.service';
 
 const tokenPayloadSchema = z.object({
-  companyId: z.string().uuid(),
-  userId: z.string().uuid(),
+  companyId: z.string(),
+  userId: z.string(),
   role: z.enum(['ADMIN', 'USER', 'MANAGER']),
 });
 

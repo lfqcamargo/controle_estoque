@@ -10,7 +10,7 @@ import { HttpModule } from './http/http.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      validate: (env) => envSchema.parse(env),
+      validate: env => envSchema.parse(env),
       isGlobal: true,
       envFilePath: process.env.ENV_FILE || '.env',
     }),

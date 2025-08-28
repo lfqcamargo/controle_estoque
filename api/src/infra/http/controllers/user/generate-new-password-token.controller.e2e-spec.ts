@@ -31,7 +31,7 @@ describe('Generate New Password Token (E2E)', () => {
     await app.init();
   });
 
-  test('[GET] /users/forgot-password/:email', async () => {
+  test('[GET] /auth/forgot-password/:email', async () => {
     const company = await companyFactory.makePrismaCompany();
     const user = await userFactory.makePrismaUser({
       companyId: company.id,
@@ -39,7 +39,7 @@ describe('Generate New Password Token (E2E)', () => {
     });
 
     const response = await request(app.getHttpServer()).get(
-      `/users/forgot-password/${user.email}`,
+      `/auth/forgot-password/${user.email}`,
     );
 
     expect(response.statusCode).toBe(200);
