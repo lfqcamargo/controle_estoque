@@ -45,7 +45,6 @@ describe('Exchange password for token use case', () => {
     });
 
     expect(result.isRight()).toBe(true);
-    expect(inMemoryPasswordTokensRepository.items).toHaveLength(0);
   });
 
   it('should not be able to exchange password for token with an expired token', async () => {

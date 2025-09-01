@@ -38,7 +38,7 @@ export function SignInForm() {
     if (email) {
       setValue("email", email);
     }
-  }, [searchParams]);
+  }, [searchParams, setValue]);
 
   const emailWatch = watch("email");
   const passwordWatch = watch("password");

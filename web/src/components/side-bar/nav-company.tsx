@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useQuery, useMutation } from "@tanstack/react-query";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -21,24 +21,18 @@ import {
 } from "@/components/ui/sidebar";
 
 import { getProfileCompany } from "@/api/user/get-profile-company";
-import { getAttachement } from "@/api/get-attachement";
 import { signOut } from "@/api/user/sign-out";
 import { ToastError } from "../toast-error";
+import { getInitials } from "@/utils/get-initials";
 
 export function NavCompany() {
-  const { isMobile } = useSidebar();
+  const { isMobile, state } = useSidebar();
   const navigate = useNavigate();
+  const isCollapsed = state === "collapsed";
 
   const { data: company, isLoading: isCompanyLoading } = useQuery({
     queryKey: ["company"],
     queryFn: getProfileCompany,
-  });
-
-  const { data: photoData, isLoading: isPhotoLoading } = useQuery({
-    queryKey: ["company-photo", company?.photoId],
-    queryFn: () =>
-      company?.photoId ? getAttachement({ id: company.photoId }) : null,
-    enabled: !!company?.photoId,
   });
 
   const { mutateAsync: signOutFn } = useMutation({ mutationFn: signOut });
@@ -52,60 +46,56 @@ export function NavCompany() {
     }
   }
 
-  const getInitials = (name: string) => {
-    const words = name.trim().split(/\s+/);
-    if (words.length === 1) return words[0].substring(0, 2).toUpperCase();
-    return (
-      words[0].charAt(0).toUpperCase() +
-      words[words.length - 1].charAt(0).toUpperCase()
-    );
-  };
-
   return (
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
-              size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              size={isCollapsed ? "default" : "lg"}
+              className={`data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground ${
+                isCollapsed ? "justify-center" : ""
+              }`}
             >
               {isCompanyLoading ? (
                 <>
-                  <Skeleton className="h-8 w-8 rounded-lg" />
-                  <div className="flex-1 space-y-1 overflow-hidden">
-                    <Skeleton className="h-4 w-24" />
-                    <Skeleton className="h-3 w-32" />
-                  </div>
+                  {isCollapsed ? (
+                    <Skeleton className="h-8 w-8 rounded-full" />
+                  ) : (
+                    <>
+                      <Skeleton className="h-8 w-8 rounded-lg" />
+                      <div className="flex-1 space-y-1 overflow-hidden">
+                        <Skeleton className="h-4 w-24" />
+                        <Skeleton className="h-3 w-32" />
+                      </div>
+                    </>
+                  )}
                 </>
               ) : (
                 <>
-                  <Avatar className="h-8 w-8 rounded-lg">
-                    {!isPhotoLoading && (
-                      <>
-                        <AvatarImage
-                          src={photoData?.url ?? undefined}
-                          alt={company?.name}
-                        />
-                        {!photoData?.url && (
-                          <AvatarFallback className="rounded-lg">
-                            {company?.name ? getInitials(company.name) : "..."}
-                          </AvatarFallback>
-                        )}
-                      </>
-                    )}
-                  </Avatar>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">
-                      {company?.name}
-                    </span>
-                    <span className="truncate text-xs">
-                      {company?.lealName}
-                    </span>
-                  </div>
+                  {isCollapsed ? (
+                    <Avatar className="h-8 w-8 rounded-full mx-auto">
+                      <AvatarFallback className="rounded-full text-xs font-semibold flex items-center justify-center">
+                        {company?.name ? getInitials(company.name) : "..."}
+                      </AvatarFallback>
+                    </Avatar>
+                  ) : (
+                    <>
+                      <Avatar className="h-8 w-8 rounded-lg">
+                        <AvatarFallback className="rounded-lg">
+                          {company?.name ? getInitials(company.name) : "..."}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="grid flex-1 text-left text-sm leading-tight">
+                        <span className="truncate font-semibold">
+                          {company?.name}
+                        </span>
+                      </div>
+                    </>
+                  )}
                 </>
               )}
-              <ChevronsUpDown className="ml-auto size-4" />
+              {!isCollapsed && <ChevronsUpDown className="ml-auto size-4" />}
             </SidebarMenuButton>
           </DropdownMenuTrigger>
 
@@ -128,10 +118,6 @@ export function NavCompany() {
                 ) : (
                   <>
                     <Avatar className="h-8 w-8 rounded-lg">
-                      <AvatarImage
-                        src={photoData?.url ?? "/placeholder.svg"}
-                        alt={company?.name}
-                      />
                       <AvatarFallback className="rounded-lg">
                         {company?.name ? getInitials(company.name) : "..."}
                       </AvatarFallback>
@@ -139,9 +125,6 @@ export function NavCompany() {
                     <div className="grid flex-1 text-left text-sm leading-tight">
                       <span className="truncate font-semibold">
                         {company?.name}
-                      </span>
-                      <span className="truncate text-xs">
-                        {company?.lealName}
                       </span>
                     </div>
                   </>

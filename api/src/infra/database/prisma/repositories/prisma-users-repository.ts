@@ -81,6 +81,16 @@ export class PrismaUsersRepository implements UsersRepositoryInterface {
   }
 
   async update(user: User): Promise<void> {
+    const userOld = await this.prisma.user.findUnique({
+      where: { id: user.id.toString() },
+    });
+
+    if (userOld && userOld.password != user.password) {
+      this.prisma.passwordToken.deleteMany({
+        where: { userId: user.id.toString() },
+      });
+    }
+
     await this.prisma.user.update({
       where: { id: user.id.toString() },
       data: PrismaUserMapper.toPrisma(user),
