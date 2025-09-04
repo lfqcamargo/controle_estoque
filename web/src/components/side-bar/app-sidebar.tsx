@@ -11,6 +11,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { NavCompany } from "./nav-company";
+import { useUserRole } from "@/hooks/use-user-role";
 
 const navMain: NavItem[] = [
   {
@@ -65,17 +66,27 @@ const navMain: NavItem[] = [
     url: "#",
     icon: Settings,
     items: [{ title: "Configurações", url: "/configuracoes" }],
+    adminOnly: true,
   },
 ];
 
 export function AppSidebar() {
+  const { isAdmin } = useUserRole();
+
+  const filteredNavItems = navMain.filter((item) => {
+    if (item.adminOnly && !isAdmin) {
+      return false;
+    }
+    return true;
+  });
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
         <NavCompany />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={navMain} />
+        <NavMain items={filteredNavItems} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

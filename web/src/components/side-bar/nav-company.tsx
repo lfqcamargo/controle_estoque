@@ -24,6 +24,7 @@ import { getProfileCompany } from "@/api/user/get-profile-company";
 import { signOut } from "@/api/user/sign-out";
 import { ToastError } from "../toast-error";
 import { getInitials } from "@/utils/get-initials";
+import { useUserRole } from "@/hooks/use-user-role";
 
 export function NavCompany() {
   const { isMobile, state } = useSidebar();
@@ -35,6 +36,7 @@ export function NavCompany() {
     queryFn: getProfileCompany,
   });
 
+  const { isAdmin } = useUserRole();
   const { mutateAsync: signOutFn } = useMutation({ mutationFn: signOut });
 
   async function handleLogout() {
@@ -134,23 +136,31 @@ export function NavCompany() {
 
             <DropdownMenuSeparator />
 
-            <DropdownMenuGroup>
-              <DropdownMenuItem asChild>
-                <Link to="/company" className="flex items-center gap-2 w-full">
-                  <Building2 className="h-4 w-4" />
-                  Editar Empresa
-                </Link>
-              </DropdownMenuItem>
+            {isAdmin && (
+              <DropdownMenuGroup>
+                <DropdownMenuItem asChild>
+                  <Link
+                    to="/company"
+                    className="flex items-center gap-2 w-full"
+                  >
+                    <Building2 className="h-4 w-4" />
+                    Editar Empresa
+                  </Link>
+                </DropdownMenuItem>
 
-              <DropdownMenuItem asChild>
-                <Link to="/employee" className="flex items-center gap-2 w-full">
-                  <Users className="h-4 w-4" />
-                  Funcionários
-                </Link>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
+                <DropdownMenuItem asChild>
+                  <Link
+                    to="/employee"
+                    className="flex items-center gap-2 w-full"
+                  >
+                    <Users className="h-4 w-4" />
+                    Funcionários
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+            )}
 
-            <DropdownMenuSeparator />
+            {isAdmin && <DropdownMenuSeparator />}
 
             <DropdownMenuItem onClick={handleLogout}>
               <LogOut className="h-4 w-4" />

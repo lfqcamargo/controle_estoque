@@ -9,6 +9,7 @@ import { ConfirmationEmailUserPage } from "./pages/auth/confirmation-email-user/
 import { ConfirmEmailCompanyPage } from "./pages/auth/confirmation-email-company/confirmation-email-company-page";
 import { SignUpPage } from "./pages/auth/sign-up/sign-up-page";
 import { DashboardPage } from "./pages/app/dashboard/dashbaord-page";
+import { CompanyPage } from "./pages/app/company/company-page";
 
 export const routes = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ export const routes = createBrowserRouter([
       {
         path: "dashboard",
         element: <DashboardPage />,
+      },
+      {
+        path: "company",
+        element: <CompanyPage />,
       },
     ],
   },

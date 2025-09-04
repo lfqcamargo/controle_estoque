@@ -21,8 +21,8 @@ const createTempUserBodySchema = z.object({
     .string()
     .length(14, 'CNPJ must be exactly 14 characters')
     .regex(/^\d+$/, 'CNPJ must contain only numbers')
-    .transform((cnpj) => cnpj.trim())
-    .refine((cnpj) => validateCNPJ(cnpj), {
+    .transform(cnpj => cnpj.trim())
+    .refine(cnpj => validateCNPJ(cnpj), {
       message: 'invalid CNPJ',
     }),
 
@@ -34,13 +34,13 @@ const createTempUserBodySchema = z.object({
       /^[\p{L}0-9&.,\-()\s]+$/u,
       'Company name contains invalid characters',
     )
-    .transform((name) => name.trim().replace(/\s+/g, ' '))
-    .transform((name) =>
+    .transform(name => name.trim().replace(/\s+/g, ' '))
+    .transform(name =>
       name
         .trim()
         .replace(/\s+/g, ' ')
         .toLowerCase()
-        .replace(/\b\w/g, (c) => c.toUpperCase()),
+        .replace(/\b\w/g, c => c.toUpperCase()),
     ),
 
   userName: z
@@ -51,16 +51,16 @@ const createTempUserBodySchema = z.object({
       /^[\p{L}]+([\p{L}\s']+)?$/u,
       'Username must contain only letters and spaces',
     )
-    .transform((name) => name.trim().replace(/\s+/g, ' '))
-    .transform((name) =>
+    .transform(name => name.trim().replace(/\s+/g, ' '))
+    .transform(name =>
       name
         .trim()
         .replace(/\s+/g, ' ')
         .toLowerCase()
-        .replace(/\b\w/g, (c) => c.toUpperCase()),
+        .replace(/\b\w/g, c => c.toUpperCase()),
     ),
 
-  email: z.email().transform((email) => email.toLowerCase().trim()),
+  email: z.email().transform(email => email.toLowerCase().trim()),
 
   password: z
     .string()
@@ -104,7 +104,7 @@ export class CreateTempCompanyController {
         throw new ConflictException(error.message);
       }
 
-      throw new InternalServerErrorException('Unexpected error');
+      throw new InternalServerErrorException();
     }
   }
 }

@@ -32,7 +32,7 @@ export class GetProfileCompanyController {
         throw new NotFoundException(error.message);
       }
 
-      throw new InternalServerErrorException('Unexpected error');
+      throw new InternalServerErrorException();
     }
 
     return CompanyPresenter.toHTTP(result.value.company);

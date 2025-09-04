@@ -11,4 +11,5 @@ export interface NavItem {
   icon?: LucideIcon;
   isActive?: boolean;
   items?: NavSubItem[];
+  adminOnly?: boolean;
 }

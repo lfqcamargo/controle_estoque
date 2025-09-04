@@ -32,7 +32,7 @@ export class GetProfileUserController {
         throw new NotFoundException(error.message);
       }
 
-      throw new InternalServerErrorException('Unexpected error');
+      throw new InternalServerErrorException();
     }
 
     return UserPresenter.toHTTP(result.value.user);
